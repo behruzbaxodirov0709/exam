@@ -1,7 +1,15 @@
 1.APIView, GenericAPIView va ViewSet tushunchalari qanday farqlanadi?
+GenericAPIViewda bizda tayyor queryset, serializer_class kabi tayyor atributlar va ulrning klaslaridan foydalanishimz mumkin, apiviewda esa o'zimiz o'zgaruvchilar yaratamiz, ViewSetda urlsda farqi bor 
+
 2.Serializer va ModelSerializer o‘rtasidagi asosiy farqlar nimalardan iborat?
+Serializer bu base bo'lib ModelSerializer ham undan foydalangan farqi ModelSerializerda modelga boglanganligi
+
 3.filter() va get() metodlarining farqi nimada?
+filter object olinganda none qaytaradi getda esa multiple object va nonobject xatolarini qaytaradi
+
 4.Django’da makemigrations va migrate buyruqlarining farqi nima?
+makemigrations ozgartishlarni aniqlaydi migrate esa databasega saqlaydi
+
 5.validate_<field_name> va validate(self, attrs) metodlarining farqi nimada?
 6.query_params nima va qachon ishlatamiz
 7.AbstractUser and AbstractBaseUser farqi nima.

@@ -2,7 +2,7 @@
 
 from rest_framework.urls import path
 from . import views
-# from rest_framework.settings import  
+# from rest_framework. import  
 
 urlpatterns = [
     path(route="create/category/", view=views.CategoryCreateView.as_view()),
