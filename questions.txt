@@ -1,0 +1,10 @@
+1.APIView, GenericAPIView va ViewSet tushunchalari qanday farqlanadi?
+2.Serializer va ModelSerializer o‘rtasidagi asosiy farqlar nimalardan iborat?
+3.filter() va get() metodlarining farqi nimada?
+4.Django’da makemigrations va migrate buyruqlarining farqi nima?
+5.validate_<field_name> va validate(self, attrs) metodlarining farqi nimada?
+6.query_params nima va qachon ishlatamiz
+7.AbstractUser and AbstractBaseUser farqi nima.
+8.null=True va blank=True parametrlarining farqi nimada?
+9.Modelda related_name parametri nima uchun kerak?
+10.Django’da DEBUG = False qilinganda nimalar o‘zgaradi?
