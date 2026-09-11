@@ -4,7 +4,7 @@ from .models import CategoryModel, ProductModel
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, get_object_or_404
-
+from django.core.paginator import Paginator
 
 class CategoryCreateView(GenericAPIView):
     serializer_class=serializer.CategorySerializer
@@ -27,8 +27,18 @@ class CategoryListView(GenericAPIView):
     serializer_class=serializer.CategorySerializer
 
     def get(self, request):
+        name = request.query_params.get("name")
+        page = request.query_params.get("page")
+
         queryset=self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        p = Paginator(queryset, per_page=2)
+        page_list = p.get_page(page)
+        
+        serializer = self.get_serializer(page_list, many=True)
 
         return Response(
             data={
@@ -118,12 +128,22 @@ class ProductListView(GenericAPIView):
     queryset=ProductModel.objects.all()
 
     def get(self, request):
+        name = request.query_params.get("name")
+        page = request.query_params.get("page")
+
         queryset=self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        p = Paginator(queryset, per_page=5)
+        page_list = p.get_page(page)
+        
+        serializer = self.get_serializer(page_list, many=True)
 
         return Response(
             data={
-                "message":"Preoduct list fetched",
+                "message":"Product list fetched successfully",
                 "count":queryset.count(),
                 "products":serializer.data
             },
