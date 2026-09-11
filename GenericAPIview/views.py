@@ -7,10 +7,10 @@ from rest_framework.generics import GenericAPIView, get_object_or_404
 
 
 class CategoryCreateView(GenericAPIView):
-    def post(self, request):
-        serializer_class=serializer.CategorySerializer
-        serializer = self.get_serializer(data=request.data)
+    serializer_class=serializer.CategorySerializer
 
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
@@ -23,16 +23,17 @@ class CategoryCreateView(GenericAPIView):
         )
 
 class CategoryListView(GenericAPIView):
-    def get(self, request):
-        queryset=CategoryModel.objects.all()
-        serializer_class=serializer.CategorySerializer
+    queryset=CategoryModel.objects.all()
+    serializer_class=serializer.CategorySerializer
 
-        serializer = self.get_serializer(self.get_queryset, many=True)
+    def get(self, request):
+        queryset=self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
 
         return Response(
             data={
                 "message":"Category list fetched successfully",
-                "count":serializer.count(),
+                "count":queryset.count(),
                 "categories":serializer.data
             },
             status=status.HTTP_200_OK
@@ -40,11 +41,10 @@ class CategoryListView(GenericAPIView):
 
 
 class CategoryDetailView(GenericAPIView):
-    def get(self, reqeust, pk):
-        serializer_class=serializer.CategorySerializer
-        queryset=CategoryModel.objects.all()
-        lookup_url_kwarg=pk
+    serializer_class=serializer.CategorySerializer
+    queryset=CategoryModel.objects.all()
 
+    def get(self, request, pk):
         serializer = self.get_serializer(self.get_object())
 
         return Response(
@@ -57,13 +57,12 @@ class CategoryDetailView(GenericAPIView):
 
 
 class CategoryUpdateView(GenericAPIView):
-    def put(self, request, pk):
-        serializer_class=serializer.CategorySerializer
-        lookup_url_kwarg=pk
-        queryset=CategoryModel.objects.all()
-        serializer = self.get_object()
+    serializer_class=serializer.CategorySerializer
+    queryset=CategoryModel.objects.all()
 
-        serializer = self.get_serializer(data=request.data)
+    def put(self, request, pk):
+        category = self.get_object()
+        serializer = self.get_serializer(category, data=request.data)
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -78,12 +77,11 @@ class CategoryUpdateView(GenericAPIView):
 
 
 class CategoryDeleteView(GenericAPIView):
-    def delete(self, request, pk):
-        lookup_url_kwarg=pk
-        queryset=CategoryModel.objects.all()
-        serializer = self.get_object()
+    queryset=CategoryModel.objects.all()
 
-        serializer.delete()
+    def delete(self, request, pk):
+        category = self.get_object()
+        category.delete()
 
         return Response(
             data={
@@ -94,12 +92,15 @@ class CategoryDeleteView(GenericAPIView):
 
 
 
+
+
+
+
 class ProductCreateView(GenericAPIView):
+    serializer_class=serializer.ProductSerializer
+
     def post(self, request):
-        serializer_class=serializer.ProductSerializer
-
         serializer = self.get_serializer(data=request.data)
-
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -113,16 +114,17 @@ class ProductCreateView(GenericAPIView):
 
 
 class ProductListView(GenericAPIView):
-    def get(self, request):
-        serializer_class=serializer.ProductSerializer
-        queryset=ProductModel.objects.all()
+    serializer_class=serializer.ProductSerializer
+    queryset=ProductModel.objects.all()
 
-        serializer = self.get_serializer(many=True)
+    def get(self, request):
+        queryset=self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
 
         return Response(
             data={
                 "message":"Preoduct list fetched",
-                "count":serializer.count(),
+                "count":queryset.count(),
                 "products":serializer.data
             },
             status=status.HTTP_200_OK
@@ -130,12 +132,11 @@ class ProductListView(GenericAPIView):
 
 
 class ProductDetailView(GenericAPIView):
-    def get(self, request, pk):
-        serializer_class=serializer.ProductSerializer
-        queryset=ProductModel.objects.all()
-        lookup_url_kwarg=pk
+    serializer_class=serializer.ProductSerializer
+    queryset=ProductModel.objects.all()
 
-        serializer = self.get_object()
+    def get(self, request, pk):
+        serializer = self.get_serializer(self.get_object())
 
         return Response(
             data={
@@ -147,21 +148,17 @@ class ProductDetailView(GenericAPIView):
 
 
 class ProductUpdateView(GenericAPIView):
+    serializer_class=serializer.ProductSerializer
+    queryset=ProductModel.objects.all()
+
     def put(self, request, pk):
-        serializer_class=serializer.ProductSerializer
-        queryset=ProductModel.objects.all()
-        lookup_url_kwarg=pk
-
-
-        serializer = self.get_serializer(self.get_object())
-
+        serializer = self.get_serializer(self.get_object(), data=request.data)
         serializer.is_valid(raise_exception=True)
-
         serializer.save()
 
         return Response(
             data={
-                "msg":"product updated",
+                "message":"product updated successfully",
                 "product":serializer.data
             },
             status=status.HTTP_200_OK
@@ -169,21 +166,17 @@ class ProductUpdateView(GenericAPIView):
 
 
 class ProductPartialUpdateView(GenericAPIView):
+    serializer_class=serializer.ProductSerializer
+    queryset=ProductModel.objects.all()
+
     def patch(self, request, pk):
-        serializer_class=serializer.ProductSerializer
-        queryset=ProductModel.objects.all()
-        lookup_url_kwarg=pk
-
-
-        serializer = self.get_serializer(self.get_object(), partial=True)
-
+        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-
         serializer.save()
 
         return Response(
             data={
-                "msg":"product partially updated",
+                "message":"product partially updated",
                 "product":serializer.data
             },
             status=status.HTTP_200_OK
@@ -191,17 +184,15 @@ class ProductPartialUpdateView(GenericAPIView):
 
 
 class ProductDeleteView(GenericAPIView):
+    queryset=ProductModel.objects.all()
+
     def delete(self, request, pk):
-        queryset=ProductModel.objects.all()
-        lookup_url_kwarg=pk
-
-        serializer = self.get_object()
-
-        serializer.delete()
+        product = self.get_object()
+        product.delete()
 
         return Response(
             data={
-                "msg":"product deleted"
+                "message":"product deleted successfully"
             },
             status=status.HTTP_200_OK
         )

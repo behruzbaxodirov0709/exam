@@ -9,8 +9,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate_name(self, name):
-        if not name.isalpha():
-            return ValidationError(detail="Kategoriya nomi faqat harflardan iborat bo'lsin")
+        if name.isdigit():
+            return ValidationError(detail="Kategoriya nomida harflar ham bo'lishi lozim")
 
         if len(name)<3:
             return ValidationError(detail="Kategoriya nomi kamida 4 ta harfdan iborat bo'lsin")
@@ -28,8 +28,8 @@ class ProductSerializer(serializers.ModelSerializer):
         if name.isdigit():
             return ValidationError(detail="Mahsulot nomida harflar ham bo'lishi lozim")
 
-        if len(name)<4:
-            return ValidationError(detail="Mahsulot nomi kamida 5 ta harfdan iborat bo'lsin")
+        if len(name)<3:
+            return ValidationError(detail="Mahsulot nomi kamida 3 ta harfdan iborat bo'lsin")
 
         return name
 

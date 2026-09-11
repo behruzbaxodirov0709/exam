@@ -23,6 +23,6 @@ class ProductModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} if len({self.name})<=30 else {self.name[0:31]} ..."  #todo
+        return self.name if len(self.name) <= 30 else f"{self.name[0:30]} ..."
 
     

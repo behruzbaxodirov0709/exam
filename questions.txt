@@ -11,8 +11,19 @@ filter object olinganda none qaytaradi getda esa multiple object va nonobject xa
 makemigrations ozgartishlarni aniqlaydi migrate esa databasega saqlaydi
 
 5.validate_<field_name> va validate(self, attrs) metodlarining farqi nimada?
+validate_field bunda o'zi fieldni topadi va validate qiladi, validate esa umumiy boshqa bowqa fieldlarni taqqoslash uchun foydalaniladi 
+
 6.query_params nima va qachon ishlatamiz
+querydagi parametrlarni qayataradi
+
 7.AbstractUser and AbstractBaseUser farqi nima.
+AbstractUserda malum bir fieldlar bor,  baseuserda esa 2 ta fieldi bor xolos
+
 8.null=True va blank=True parametrlarining farqi nimada?
+null= True database uchun, blank=True foydalanuvchiga ko'rinadigan panel uchun
+
 9.Modelda related_name parametri nima uchun kerak?
+reverse connection uchun ishlatiladi yani foreign keyni teskarisi
+
 10.Django’da DEBUG = False qilinganda nimalar o‘zgaradi?
+xatolarni kodlarda ochib bermaydi
